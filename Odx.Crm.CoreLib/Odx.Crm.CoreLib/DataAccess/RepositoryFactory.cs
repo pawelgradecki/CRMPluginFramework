@@ -1,7 +1,7 @@
-﻿using Odx.Crm.Core.DataAccess.Repositories;
-using Microsoft.Xrm.Sdk;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xrm.Sdk;
+using Odx.Crm.Core.DataAccess.Repositories;
 using Odx.Crm.Core.DataAccess.Repositories.Logic;
 
 namespace Odx.Crm.Core.DataAccess

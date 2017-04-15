@@ -72,6 +72,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Compile Include="DataAccess\RequestAddedEventArgs.cs" />
+    <Compile Include="DataAccess\TransactionExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BusinessLogic\Handlers\ExampleActivityHandler.cs" />
     <Compile Include="BusinessLogic\CustomActivities\ExampleActivity.cs" />
@@ -89,7 +91,7 @@
     <Compile Include="CommonHelpers\Partials\Account.cs" />
     <Compile Include="DataAccess\IRepositoryFactory.cs" />
     <Compile Include="DataAccess\Repositories\IAccountRepository.cs" />
-    <Compile Include="DataAccess\Repositories\IBaseRepository.cs" />
+    <Compile Include="DataAccess\IBaseRepository.cs" />
     <Compile Include="DataAccess\Repositories\Logic\AccountRepository.cs" />
     <Compile Include="DataAccess\Repositories\Logic\BaseRepository.cs" />
     <Compile Include="DataAccess\RepositoryFactory.cs" />

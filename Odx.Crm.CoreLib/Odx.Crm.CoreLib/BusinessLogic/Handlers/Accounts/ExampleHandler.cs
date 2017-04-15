@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Odx.Crm.Core;
 using Odx.Crm.Core.Model;
-using Odx.Crm.Core.DataAccess.Repositories;
+using Odx.Crm.Core.DataAccess;
 
 namespace Odx.Crm.CoreLib.BusinessLogic.Handlers.Accounts
 {

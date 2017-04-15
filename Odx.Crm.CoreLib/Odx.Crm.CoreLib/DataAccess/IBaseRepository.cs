@@ -1,10 +1,10 @@
-﻿using Odx.Crm.Core.Model;
+﻿using System;
+using System.Linq.Expressions;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
-using System;
-using System.Linq.Expressions;
+using Odx.Crm.Core.Model;
 
-namespace Odx.Crm.Core.DataAccess.Repositories
+namespace Odx.Crm.Core.DataAccess
 {
     public interface IBaseRepository
     {

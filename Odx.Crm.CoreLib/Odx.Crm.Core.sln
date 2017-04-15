@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odx.Crm.CoreLib", "Odx.Crm.CoreLib\Odx.Crm.CoreLib.csproj", "{B8A0A7CA-7C4B-43D2-A91F-6640B212E0C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odx.Crm.Core", "Odx.Crm.CoreLib\Odx.Crm.Core.csproj", "{B8A0A7CA-7C4B-43D2-A91F-6640B212E0C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
