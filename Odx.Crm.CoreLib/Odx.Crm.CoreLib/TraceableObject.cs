@@ -1,0 +1,23 @@
+﻿using System;
+using Microsoft.Xrm.Sdk;
+
+namespace Odx.Crm.Core
+{
+    public abstract class TraceableObject
+    {
+        protected ITracingService tracingService;
+        public void Trace(string format, params object[] args)
+        {
+            this.tracingService.Trace(format, args);
+        }
+
+        public void Trace(Exception ex)
+        {
+            if (ex == null) return;
+            this.Trace($"Exception: {ex?.Message}");
+            this.Trace($"StackTrace: {ex?.StackTrace}");
+            this.Trace("InnerException: \n");
+            this.Trace(ex?.InnerException);
+        }
+    }
+}
