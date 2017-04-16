@@ -250,3 +250,7 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+/Odx.Crm.Core/Tester
+/Odx.Crm.Core/Tester
+/Odx.Crm.Core/Tester/Properties/AssemblyInfo.cs
+/Odx.Crm.Core/Tester/Tester.csproj

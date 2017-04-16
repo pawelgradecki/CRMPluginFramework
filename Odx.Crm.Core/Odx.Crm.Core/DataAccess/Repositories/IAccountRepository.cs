@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Odx.Crm.Core.DataAccess.Repositories
 {
-    interface IAccountRepository : IBaseRepository<Account>
+    public interface IAccountRepository : IBaseRepository<Account>
     {
         Account GetAccountByAccountNumber(string accountNumber, Func<Account, Account> selector);
     }

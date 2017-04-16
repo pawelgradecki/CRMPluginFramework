@@ -8,8 +8,8 @@
     <ProjectGuid>{B8A0A7CA-7C4B-43D2-A91F-6640B212E0C7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Odx.Crm.CoreLib</RootNamespace>
-    <AssemblyName>Odx.Crm.CoreLib</AssemblyName>
+    <RootNamespace>Odx.Crm.Core</RootNamespace>
+    <AssemblyName>Odx.Crm.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -72,6 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Compile Include="DataAccess\EntityCollectionPaginator.cs" />
+    <Compile Include="DataAccess\PaginatorSettings.cs" />
+    <Compile Include="DataAccess\IPaginatorSettings.cs" />
     <Compile Include="DataAccess\RequestAddedEventArgs.cs" />
     <Compile Include="DataAccess\TransactionExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,7 +96,7 @@
     <Compile Include="DataAccess\Repositories\IAccountRepository.cs" />
     <Compile Include="DataAccess\IBaseRepository.cs" />
     <Compile Include="DataAccess\Repositories\Logic\AccountRepository.cs" />
-    <Compile Include="DataAccess\Repositories\Logic\BaseRepository.cs" />
+    <Compile Include="DataAccess\BaseRepository.cs" />
     <Compile Include="DataAccess\RepositoryFactory.cs" />
     <Compile Include="HandlerBase.cs" />
     <Compile Include="IHandler.cs" />

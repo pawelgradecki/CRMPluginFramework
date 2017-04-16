@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
@@ -27,6 +28,8 @@ namespace Odx.Crm.Core.DataAccess
         T Retrieve(Guid id, string entityLogicalName, params string[] columns);
 
         T Retrieve(Guid id, Expression<Func<T, T>> constructor);
+
+        List<T> RetrieveAll(params string[] columns);
 
         U CustomRetrieve<U>(Func<XrmServiceContext, U> customRetriever);
 

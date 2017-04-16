@@ -9,8 +9,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xrm.Sdk.Client;
 
-namespace Odx.Crm.Core.DataAccess.Repositories.Logic
+namespace Odx.Crm.Core.DataAccess
 {
     internal class BaseRepository : IBaseRepository
     {
@@ -76,6 +77,18 @@ namespace Odx.Crm.Core.DataAccess.Repositories.Logic
                     .Single();
                 });
 
+        }
+
+        public List<T> RetrieveAll(params string[] columns)
+        {
+            var paginator = new EntityCollectionPaginator<T>(this.service, columns);
+            var entities = new List<T>();
+            do
+            {
+                entities.AddRange(paginator.GetNextPage());
+            } while (paginator.HasMore);
+
+            return entities;
         }
 
         public U CustomRetrieve<U>(Func<XrmServiceContext, U> customRetriever)

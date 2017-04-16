@@ -2,9 +2,9 @@
 using System.Activities;
 using Microsoft.Xrm.Sdk.Workflow;
 using Odx.Crm.Core;
-using Odx.Crm.CoreLib.BusinessLogic.Handlers;
+using Odx.Crm.Core.BusinessLogic.Handlers;
 
-namespace Odx.Crm.CoreLib.BusinessLogic.CustomActivities
+namespace Odx.Crm.Core.BusinessLogic.CustomActivities
 {
     public class ExampleActivity : BaseCustomActivity
     {

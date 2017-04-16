@@ -3,7 +3,7 @@ using Odx.Crm.Core;
 using Odx.Crm.Core.Model;
 using Odx.Crm.Core.DataAccess;
 
-namespace Odx.Crm.CoreLib.BusinessLogic.Handlers.Accounts
+namespace Odx.Crm.Core.BusinessLogic.Handlers.Accounts
 {
     public class ExampleHandler : HandlerBase<Account>, IHandler
     {

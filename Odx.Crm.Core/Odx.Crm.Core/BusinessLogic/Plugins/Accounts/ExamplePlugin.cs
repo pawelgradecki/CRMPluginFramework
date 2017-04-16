@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 using Odx.Crm.Core;
-using Odx.Crm.CoreLib.BusinessLogic.Handlers.Accounts;
+using Odx.Crm.Core.BusinessLogic.Handlers.Accounts;
 
-namespace Odx.Crm.CoreLib.Plugins.Accounts
+namespace Odx.Crm.Core.Plugins.Accounts
 {
     public class ExamplePlugin : BasePlugin<ExampleHandler>, IPlugin
     {

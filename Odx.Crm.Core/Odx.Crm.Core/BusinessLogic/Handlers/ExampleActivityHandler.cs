@@ -1,8 +1,8 @@
 ﻿using System;
 using Odx.Crm.Core;
-using Odx.Crm.CoreLib.BusinessLogic.CustomActivities;
+using Odx.Crm.Core.BusinessLogic.CustomActivities;
 
-namespace Odx.Crm.CoreLib.BusinessLogic.Handlers
+namespace Odx.Crm.Core.BusinessLogic.Handlers
 {
     public class ExampleActivityHandler : ActivityHandlerBase<ExampleActivity>, IActivityHandler
     {
