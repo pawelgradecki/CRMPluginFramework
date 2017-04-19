@@ -1,7 +1,9 @@
-﻿namespace Odx.Crm.Core
+﻿using Odx.Crm.Core.DataAccess;
+
+namespace Odx.Crm.Core
 {
-    public interface IHandler
+    public interface IHandler : ITraceableObject
     {
-        void Execute();
+        void Execute(ILocalPluginExecutionContext context, IRepositoryFactory repositoryFactory);
     }
 }

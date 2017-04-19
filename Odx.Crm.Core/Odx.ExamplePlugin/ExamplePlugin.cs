@@ -3,7 +3,7 @@ using Microsoft.Xrm.Sdk.Messages;
 using Odx.Crm.Core;
 using Odx.Crm.Core.BusinessLogic.Handlers.Accounts;
 
-namespace Odx.Crm.Core.Plugins.Accounts
+namespace Odx.ExamplePlugin
 {
     public class ExamplePlugin : BasePlugin<ExampleHandler>, IPlugin
     {

@@ -1,62 +1,49 @@
-﻿using Microsoft.Xrm.Sdk;
+﻿using System;
+using Microsoft.Xrm.Sdk;
 
 namespace Odx.Crm.Core
 {
-    public class LocalPluginExecutionContext
+    internal class LocalPluginExecutionContext : ILocalPluginExecutionContext
     {
-        public IPluginExecutionContext Context { get; private set; }
-
+        private bool isPostImageLoaded;
+        private bool isPreImageLoaded;
+        private bool isTargetLoaded;
+        private Entity postImage;
+        private Entity preImage;
+        private Entity target;
         public LocalPluginExecutionContext(IPluginExecutionContext context)
         {
             this.Context = context;
         }
 
-        public TMessage GetRequestMessage<TMessage>()
-            where TMessage : OrganizationRequest, new()
+        public IPluginExecutionContext Context { get; private set; }
+        public virtual Entity PostImage
         {
-            var request = new TMessage()
+            get
             {
-                Parameters = this.Context.InputParameters
-            };
-
-            return request;
-        }
-
-        public TMessage GetResponseMessage<TMessage>()
-            where TMessage : OrganizationRequest, new()
-        {
-            var request = new TMessage()
-            {
-                Parameters = this.Context.OutputParameters
-            };
-
-            return request;
-        }
-
-        public V GetInputParameter<V>(string key)
-        {
-            if (this.Context.InputParameters.ContainsKey(key))
-            {
-                return (V)this.Context.InputParameters[key];
+                return GetEntityImage(nameof(this.PostImage), Context.PostEntityImages, ref this.postImage, ref this.isPostImageLoaded);
             }
-
-            return default(V);
         }
 
-        public void SetInputParameter<V>(string key, V value)
+        public virtual Entity PreImage
         {
-            this.Context.InputParameters[key] = value;
-        }
-
-        public void SetOutputParameter<V>(string key, V value)
-        {
-            if (this.Context.OutputParameters.ContainsKey(key))
+            get
             {
-                this.Context.OutputParameters[key] = value;
+                return GetEntityImage(nameof(this.PreImage), Context.PreEntityImages, ref this.preImage, ref this.isPreImageLoaded);
             }
-            else
+        }
+
+        public virtual Entity Target
+        {
+            get
             {
-                this.Context.OutputParameters.Add(key, value);
+                if (!this.isTargetLoaded)
+                {
+                    this.isTargetLoaded = true;
+                    this.target = ((Entity)Context.InputParameters[nameof(Target)]);
+                }
+
+                return this.target;
             }
         }
 
@@ -81,54 +68,61 @@ namespace Odx.Crm.Core
                 return CheckSharedContextForFlag(flagname, context.ParentContext);
             }
         }
-    }
 
-    public class LocalPluginExecutionContext<T> : LocalPluginExecutionContext
-        where T : Entity
-    {
-        public LocalPluginExecutionContext(IPluginExecutionContext context) : base(context)
+        public V GetInputParameter<V>(string key)
         {
+            if (this.Context.InputParameters.ContainsKey(key))
+            {
+                return (V)this.Context.InputParameters[key];
+            }
 
+            return default(V);
         }
 
-        private T preImage;
-        private bool isPreImageLoaded;
-        private T postImage;
-        private bool isPostImageLoaded;
-        private T target;
-        private bool isTargetLoaded;
-
-        public T PreImage
+        public TMessage GetRequestMessage<TMessage>()
+                                                    where TMessage : OrganizationRequest, new()
         {
-            get
+            var request = new TMessage()
             {
-                return GetEntityImage(nameof(this.PreImage), Context.PreEntityImages, ref this.preImage, ref this.isPreImageLoaded);
+                Parameters = this.Context.InputParameters
+            };
+
+            return request;
+        }
+
+        public TMessage GetResponseMessage<TMessage>()
+            where TMessage : OrganizationRequest, new()
+        {
+            var request = new TMessage()
+            {
+                Parameters = this.Context.OutputParameters
+            };
+
+            return request;
+        }
+        public void SetInputParameter<V>(string key, V value)
+        {
+            this.Context.InputParameters[key] = value;
+        }
+
+        public void SetOutputParameter<V>(string key, V value)
+        {
+            if (this.Context.OutputParameters.ContainsKey(key))
+            {
+                this.Context.OutputParameters[key] = value;
+            }
+            else
+            {
+                this.Context.OutputParameters.Add(key, value);
             }
         }
 
-        public T PostImage
+        public ILocalPluginExecutionContext<T> ToEntity<T>() where T : Entity, new()
         {
-            get
-            {
-                return GetEntityImage(nameof(this.PostImage), Context.PostEntityImages, ref this.postImage, ref this.isPostImageLoaded);
-            }
+            return new LocalPluginExecutionContext<T>(this.Context);
         }
 
-        public T Target
-        {
-            get
-            {
-                if (!this.isTargetLoaded)
-                {
-                    this.isTargetLoaded = true;
-                    this.target = ((Entity)Context.InputParameters[nameof(Target)]).ToEntity<T>();
-                }
-
-                return this.target;
-            }
-        }
-
-        private T GetEntityImage(string imageName, EntityImageCollection imagesCollection, ref T imageField, ref bool isImageFieldLoaded)
+        protected Entity GetEntityImage(string imageName, EntityImageCollection imagesCollection, ref Entity imageField, ref bool isImageFieldLoaded)
         {
             if (!isImageFieldLoaded)
             {
@@ -136,11 +130,44 @@ namespace Odx.Crm.Core
                 isImageFieldLoaded = true;
                 if (imagesCollection.Contains(imageName))
                 {
-                    imageField = imagesCollection[imageName].ToEntity<T>();
+                    imageField = imagesCollection[imageName];
                 }
             }
 
             return imageField;
+        }
+    }
+
+    internal class LocalPluginExecutionContext<T> : LocalPluginExecutionContext, ILocalPluginExecutionContext<T> 
+        where T : Entity
+    {
+        public LocalPluginExecutionContext(IPluginExecutionContext context) : base(context)
+        {
+
+        }
+
+        public new T PostImage
+        {
+            get
+            {
+                return base.PostImage.ToEntity<T>();
+            }
+        }
+
+        public new T PreImage
+        {
+            get
+            {
+                return base.PreImage.ToEntity<T>();
+            }
+        }
+
+        public new T Target
+        {
+            get
+            {
+                return base.Target.ToEntity<T>();
+            }
         }
     }
 }

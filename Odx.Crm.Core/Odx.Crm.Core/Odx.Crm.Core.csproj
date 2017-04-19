@@ -77,11 +77,9 @@
     <Compile Include="DataAccess\IPaginatorSettings.cs" />
     <Compile Include="DataAccess\RequestAddedEventArgs.cs" />
     <Compile Include="DataAccess\TransactionExecutor.cs" />
+    <Compile Include="ILocalPluginExecutionContext.cs" />
+    <Compile Include="ITraceableObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BusinessLogic\Handlers\ExampleActivityHandler.cs" />
-    <Compile Include="BusinessLogic\CustomActivities\ExampleActivity.cs" />
-    <Compile Include="BusinessLogic\Handlers\Accounts\ExampleHandler.cs" />
-    <Compile Include="BusinessLogic\Plugins\Accounts\ExamplePlugin.cs" />
     <Compile Include="Utilities\InterfaceMocker.cs" />
     <Compile Include="Utilities\ProxyTypesCache.cs" />
     <Compile Include="ActivityHandlerBase.cs" />

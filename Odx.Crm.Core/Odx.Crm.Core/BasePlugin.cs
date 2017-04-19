@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xrm.Sdk;
+using Odx.Crm.Core.DataAccess;
 
 namespace Odx.Crm.Core
 {
@@ -76,11 +77,16 @@ namespace Odx.Crm.Core
         public virtual void Execute(IServiceProvider serviceProvider)
         {
             this.RegisterAvailableMessages();
-            var context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
+            var context = this.GetPluginExecutionContext(serviceProvider);
             if (!availableMessages.ContainsKey((PipelineStage)context.Stage + context.MessageName))
             {
                 throw new InvalidPluginExecutionException($"Plugin registered on bad message. Contact your system administrator");
             }
+        }
+
+        protected IPluginExecutionContext GetPluginExecutionContext(IServiceProvider serviceProvider)
+        {
+            return (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
         }
     }
 
@@ -93,17 +99,41 @@ namespace Odx.Crm.Core
         public override void Execute(IServiceProvider serviceProvider)
         {
             base.Execute(serviceProvider);
+
+            var localContext = this.GetLocalPluginContext(serviceProvider);
+            var repositoryFactory = this.GetRepositoryFactory(serviceProvider);
+            var tracingService = this.GetTracingService(serviceProvider);
+
             var handler = new T();
-            handler.Initialize(serviceProvider, this.UnsecureConfig, this.SecureConfig);
+            handler.InitializeTracing(tracingService);
+            handler.InitializeConfiguration(this.UnsecureConfig, this.SecureConfig);
+
             try
             {
-                handler.Execute();
+                handler.Execute(localContext, repositoryFactory);
             }
             catch (Exception ex)
             {
                 handler.Trace(ex);
                 throw;
             }
+        }
+
+        private IRepositoryFactory GetRepositoryFactory(IServiceProvider serviceProvider)
+        {
+            var factory = serviceProvider.GetService(typeof(IOrganizationServiceFactory)) as IOrganizationServiceFactory;
+            return new RepositoryFactory(factory);
+        }
+
+        private ILocalPluginExecutionContext GetLocalPluginContext(IServiceProvider serviceProvider)
+        {
+            var context = this.GetPluginExecutionContext(serviceProvider);
+            return new LocalPluginExecutionContext(context);
+        }
+
+        private ITracingService GetTracingService(IServiceProvider serviceProvider)
+        {
+            return (ITracingService)serviceProvider.GetService(typeof(ITracingService));
         }
     }
 }

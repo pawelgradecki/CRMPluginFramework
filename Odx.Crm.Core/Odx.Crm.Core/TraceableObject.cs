@@ -3,9 +3,10 @@ using Microsoft.Xrm.Sdk;
 
 namespace Odx.Crm.Core
 {
-    public abstract class TraceableObject
+    public abstract class TraceableObject : ITraceableObject
     {
-        protected ITracingService tracingService;
+        private ITracingService tracingService;
+
         public void Trace(string format, params object[] args)
         {
             this.tracingService.Trace(format, args);
@@ -18,6 +19,11 @@ namespace Odx.Crm.Core
             this.Trace($"StackTrace: {ex?.StackTrace}");
             this.Trace("InnerException: \n");
             this.Trace(ex?.InnerException);
+        }
+
+        internal void InitializeTracing(ITracingService service)
+        {
+            this.tracingService = tracingService;
         }
     }
 }
