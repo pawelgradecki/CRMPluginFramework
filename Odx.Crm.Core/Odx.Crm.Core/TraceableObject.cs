@@ -23,7 +23,7 @@ namespace Odx.Crm.Core
 
         internal void InitializeTracing(ITracingService service)
         {
-            this.tracingService = tracingService;
+            this.tracingService = service;
         }
     }
 }
