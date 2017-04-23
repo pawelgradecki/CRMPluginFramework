@@ -5,7 +5,7 @@ namespace Odx.Crm.Core
 {
     public abstract class TraceableObject : ITraceableObject
     {
-        private ITracingService tracingService;
+        protected ITracingService tracingService;
 
         public void Trace(string format, params object[] args)
         {

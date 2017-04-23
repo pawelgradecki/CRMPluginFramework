@@ -1,5 +1,4 @@
-﻿using Odx.Crm.Core.DataAccess.Repositories;
-using System;
+﻿using System;
 
 namespace Odx.Crm.Core.DataAccess
 {

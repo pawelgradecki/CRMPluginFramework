@@ -1,11 +1,12 @@
-﻿using Odx.Crm.Core.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Odx.Crm.Core.DataAccess;
+using Odx.Crm.Core.Model;
 
-namespace Odx.Crm.Core.DataAccess.Repositories
+namespace Odx.ExamplePlugin.Repositories
 {
     public interface IAccountRepository : IBaseRepository<Account>
     {

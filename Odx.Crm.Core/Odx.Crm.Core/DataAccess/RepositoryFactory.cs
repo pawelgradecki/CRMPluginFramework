@@ -1,27 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Microsoft.Xrm.Sdk;
-using Odx.Crm.Core.DataAccess.Repositories;
-using Odx.Crm.Core.DataAccess.Repositories.Logic;
 
 namespace Odx.Crm.Core.DataAccess
 {
     public class RepositoryFactory : IRepositoryFactory
     {
         private static Dictionary<Type, Type> mapping = new Dictionary<Type, Type>();
+
         private IOrganizationServiceFactory serviceFactory;
 
         static RepositoryFactory()
         {
-            AddMapping<IBaseRepository, BaseRepository>();
-            AddMapping<IAccountRepository, AccountRepository>();
+            var assembly = Assembly.GetExecutingAssembly();
+            var allRepositories = assembly.GetExportedTypes().Where(x => typeof(IBaseRepository).IsAssignableFrom(x));
+            foreach (var repo in allRepositories)
+            {
+                if (repo.IsGenericType)
+                {
+                    continue;
+                }
+
+                AddMapping<IBaseRepository>(repo);
+            }            
         }
 
-        private static void AddMapping<TInterface, VImplementation>()
+        private static void AddMapping<TInterface>(Type implementation)
             where TInterface : IBaseRepository
-            where VImplementation : TInterface
         {
-            mapping.Add(typeof(TInterface), typeof(VImplementation));
+            mapping.Add(typeof(TInterface), implementation);
         }
 
         public RepositoryFactory(IOrganizationServiceFactory serviceFactory)

@@ -11,15 +11,11 @@ namespace Odx.Crm.Core
         private CodeActivityContext activityContext;
         public T ActivityData { get; private set; }
         protected IWorkflowContext WorkflowContext { get; private set; }
-        protected IRepositoryFactory Repositories { get; private set; }
         private void InitializeInternal(CodeActivityContext context, T activity)
         {
             this.activityContext = context;
             this.ActivityData = activity;
-            this.tracingService = this.activityContext.GetExtension<ITracingService>();
-            this.WorkflowContext = this.activityContext.GetExtension<IWorkflowContext>();
-            var factory = this.activityContext.GetExtension<IOrganizationServiceFactory>();
-            this.Repositories = new RepositoryFactory(factory);
+            this.tracingService = context.GetExtension<ITracingService>();
         }
 
         public void Initialize(CodeActivityContext context, CodeActivity activity)

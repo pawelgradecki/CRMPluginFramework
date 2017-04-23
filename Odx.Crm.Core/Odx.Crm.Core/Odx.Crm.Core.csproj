@@ -91,9 +91,7 @@
     <Compile Include="CommonHelpers\Interfaces\IEntityWithOwner.cs" />
     <Compile Include="CommonHelpers\Partials\Account.cs" />
     <Compile Include="DataAccess\IRepositoryFactory.cs" />
-    <Compile Include="DataAccess\Repositories\IAccountRepository.cs" />
     <Compile Include="DataAccess\IBaseRepository.cs" />
-    <Compile Include="DataAccess\Repositories\Logic\AccountRepository.cs" />
     <Compile Include="DataAccess\BaseRepository.cs" />
     <Compile Include="DataAccess\RepositoryFactory.cs" />
     <Compile Include="HandlerBase.cs" />
