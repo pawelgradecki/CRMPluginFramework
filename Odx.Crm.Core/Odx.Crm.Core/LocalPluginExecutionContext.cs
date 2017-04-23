@@ -7,10 +7,13 @@ namespace Odx.Crm.Core
     {
         private bool isPostImageLoaded;
         private bool isPreImageLoaded;
+        private bool isTargetEntityLoaded;
         private bool isTargetLoaded;
         private Entity postImage;
         private Entity preImage;
-        private Entity target;
+        private Entity targetEntity;
+        private object target;
+
         public LocalPluginExecutionContext(IPluginExecutionContext context)
         {
             this.Context = context;
@@ -33,17 +36,31 @@ namespace Odx.Crm.Core
             }
         }
 
-        public virtual Entity Target
+        public virtual object Target
         {
             get
             {
                 if (!this.isTargetLoaded)
                 {
                     this.isTargetLoaded = true;
-                    this.target = ((Entity)Context.InputParameters[nameof(Target)]);
+                    this.target = Context.InputParameters[nameof(Target)];
                 }
 
                 return this.target;
+            }
+        }
+
+        public virtual Entity TargetEntity
+        {
+            get
+            {
+                if (!this.isTargetEntityLoaded)
+                {
+                    this.isTargetEntityLoaded = true;
+                    this.targetEntity = this.Target as Entity;
+                }
+
+                return this.targetEntity;
             }
         }
 
@@ -162,11 +179,11 @@ namespace Odx.Crm.Core
             }
         }
 
-        public new T Target
+        public new T TargetEntity
         {
             get
             {
-                return base.Target.ToEntity<T>();
+                return base.TargetEntity.ToEntity<T>();
             }
         }
     }

@@ -7,7 +7,8 @@ namespace Odx.Crm.Core
         IPluginExecutionContext Context { get; }
         Entity PostImage { get; }
         Entity PreImage { get; }
-        Entity Target { get; }
+        object Target { get; }
+        Entity TargetEntity { get; }
 
         bool CheckSharedContextForFlag(string flagname, IPluginExecutionContext context = null);
         V GetInputParameter<V>(string key);
@@ -23,6 +24,6 @@ namespace Odx.Crm.Core
     {
         new T PostImage { get; }
         new T PreImage { get; }
-        new T Target { get; }
+        new T TargetEntity { get; }
     }
 }
