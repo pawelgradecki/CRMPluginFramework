@@ -1,6 +1,6 @@
-﻿using Odx.Crm.Core.DataAccess;
+﻿using Odx.Xrm.Core.DataAccess;
 
-namespace Odx.Crm.Core
+namespace Odx.Xrm.Core
 {
     public interface IHandler : ITraceableObject
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
-using Odx.Crm.Core.Model;
+using Odx.Xrm.Core.Model;
 
-namespace Odx.Crm.Core.DataAccess
+namespace Odx.Xrm.Core.DataAccess
 {
     public interface IBaseRepository
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Odx.Crm.Core.DataAccess
+namespace Odx.Xrm.Core.DataAccess
 {
     public interface IRepositoryFactory
     {

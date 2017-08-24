@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xrm.Sdk.Query;
 
-namespace Odx.Crm.Core.DataAccess
+namespace Odx.Xrm.Core.DataAccess
 {
     public interface IPaginatorSettings
     {

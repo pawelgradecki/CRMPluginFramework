@@ -1,6 +1,6 @@
-﻿using Odx.Crm.Core.CommonHelpers.Interfaces;
+﻿using Odx.Xrm.Core.CommonHelpers.Interfaces;
 
-namespace Odx.Crm.Core.Model
+namespace Odx.Xrm.Core.Model
 {
     public partial class Account : IEntityWithOwner
     {

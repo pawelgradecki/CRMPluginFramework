@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
 
-namespace Odx.Crm.Core.DataAccess
+namespace Odx.Xrm.Core.DataAccess
 {
     /// <summary>
     /// Helps to execute requests in transactions

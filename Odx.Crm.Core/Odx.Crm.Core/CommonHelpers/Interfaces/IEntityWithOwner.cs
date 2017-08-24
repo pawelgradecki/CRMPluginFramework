@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xrm.Sdk;
 
-namespace Odx.Crm.Core.CommonHelpers.Interfaces
+namespace Odx.Xrm.Core.CommonHelpers.Interfaces
 {
     public interface IEntityWithOwner : IEntityExtension
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xrm.Sdk.Query;
 
-namespace Odx.Crm.Core.DataAccess
+namespace Odx.Xrm.Core.DataAccess
 {
     public class PaginatorSettings : IPaginatorSettings
     {

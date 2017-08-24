@@ -1,9 +1,9 @@
 ﻿using System.Activities;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Workflow;
-using Odx.Crm.Core.DataAccess;
+using Odx.Xrm.Core.DataAccess;
 
-namespace Odx.Crm.Core
+namespace Odx.Xrm.Core
 {
     public class ActivityHandlerBase<T> : TraceableObject
         where T : CodeActivity

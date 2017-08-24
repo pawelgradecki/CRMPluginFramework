@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.Xrm.Sdk;
-using Odx.Crm.Core.CommonHelpers.Interfaces;
+using Odx.Xrm.Core.CommonHelpers.Interfaces;
 
-namespace Odx.Crm.Core.Utilities
+namespace Odx.Xrm.Core.Utilities
 {
     static class InterfaceMocker
     {

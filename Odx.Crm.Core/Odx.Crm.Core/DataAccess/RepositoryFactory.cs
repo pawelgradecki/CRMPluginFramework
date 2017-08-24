@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.Xrm.Sdk;
 
-namespace Odx.Crm.Core.DataAccess
+namespace Odx.Xrm.Core.DataAccess
 {
     public class RepositoryFactory : IRepositoryFactory
     {
@@ -15,6 +15,7 @@ namespace Odx.Crm.Core.DataAccess
         static RepositoryFactory()
         {
             var assembly = Assembly.GetExecutingAssembly();
+            var assemblyTypes = assembly.GetTypes();
             var allRepositories = assembly.GetExportedTypes().Where(x => typeof(IBaseRepository).IsAssignableFrom(x));
             foreach (var repo in allRepositories)
             {
@@ -23,14 +24,19 @@ namespace Odx.Crm.Core.DataAccess
                     continue;
                 }
 
-                AddMapping<IBaseRepository>(repo);
-            }            
+                var implementation = assemblyTypes.FirstOrDefault(t => repo.IsAssignableFrom(t) && t.IsClass && !t.IsGenericType);
+                if (implementation == null)
+                {
+                    throw new InvalidPluginExecutionException($"Implementation for {repo.Name} not provided.");
+                }
+
+                AddMapping(repo, implementation);
+            }
         }
 
-        private static void AddMapping<TInterface>(Type implementation)
-            where TInterface : IBaseRepository
+        private static void AddMapping(Type @interface, Type implementation)
         {
-            mapping.Add(typeof(TInterface), implementation);
+            mapping.Add(@interface, implementation);
         }
 
         public RepositoryFactory(IOrganizationServiceFactory serviceFactory)

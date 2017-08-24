@@ -1,4 +1,4 @@
-﻿using Odx.Crm.Core.Model;
+﻿using Odx.Xrm.Core.Model;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xrm.Sdk.Client;
 
-namespace Odx.Crm.Core.DataAccess
+namespace Odx.Xrm.Core.DataAccess
 {
     internal class BaseRepository : IBaseRepository
     {

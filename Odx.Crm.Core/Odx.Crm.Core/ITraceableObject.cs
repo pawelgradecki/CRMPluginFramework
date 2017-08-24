@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Odx.Crm.Core
+namespace Odx.Xrm.Core
 {
     public interface ITraceableObject
     {

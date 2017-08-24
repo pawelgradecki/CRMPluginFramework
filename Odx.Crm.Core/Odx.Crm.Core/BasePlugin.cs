@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xrm.Sdk;
-using Odx.Crm.Core.DataAccess;
+using Odx.Xrm.Core.DataAccess;
 
-namespace Odx.Crm.Core
+namespace Odx.Xrm.Core
 {
     public abstract class BasePlugin : IPlugin
     {
         private string unsecureConfig;
         private string secureConfig;
-        private Dictionary<string, Type> availableMessages;
+        private HashSet<string> availableMessages;
 
         private enum PipelineStage
         {
@@ -44,14 +44,29 @@ namespace Odx.Crm.Core
             where TMessage : OrganizationRequest, new()
         {
             var temp = new TMessage();
-            this.availableMessages.Add(stage + temp.RequestName, typeof(TMessage));
+            return this.RegisterMessage(stage, temp.RequestName);
+        }
+
+        private BasePlugin RegisterMessage(PipelineStage stage, string messageName)
+        {
+            this.availableMessages.Add(stage + messageName);
             return this;
+        }
+
+        public BasePlugin RegisterMessagePost(string messageName)
+        {
+            return this.RegisterMessage(PipelineStage.PostOperation, messageName);
         }
 
         public BasePlugin RegisterMessagePost<TMessage>()
             where TMessage : OrganizationRequest, new()
         {
             return this.RegisterMessage<TMessage>(PipelineStage.PostOperation);
+        }
+
+        public BasePlugin RegisterMessagePre(string messageName)
+        {
+            return this.RegisterMessage(PipelineStage.PostOperation, messageName);
         }
 
         public BasePlugin RegisterMessagePre<TMessage>()
@@ -66,10 +81,15 @@ namespace Odx.Crm.Core
             return this.RegisterMessage<TMessage>(PipelineStage.PostOperation);
         }
 
+        public BasePlugin RegisterMessagePreValidation(string messageName)
+        {
+            return this.RegisterMessage(PipelineStage.PostOperation, messageName);
+        }
+
 
         public BasePlugin(string unsecureConfig, string secureConfig)
         {
-            this.availableMessages = new Dictionary<string, Type>();
+            this.availableMessages = new HashSet<string>();
             this.unsecureConfig = unsecureConfig;
             this.secureConfig = secureConfig;
         }
@@ -78,7 +98,7 @@ namespace Odx.Crm.Core
         {
             this.RegisterAvailableMessages();
             var context = this.GetPluginExecutionContext(serviceProvider);
-            if (!availableMessages.ContainsKey((PipelineStage)context.Stage + context.MessageName))
+            if (!availableMessages.Contains((PipelineStage)context.Stage + context.MessageName))
             {
                 throw new InvalidPluginExecutionException($"Plugin registered on bad message. Contact your system administrator");
             }

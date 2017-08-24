@@ -4,7 +4,7 @@ using System.Reflection;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
 
-namespace Odx.Crm.Core.Utilities
+namespace Odx.Xrm.Core.Utilities
 {
     static class ProxyTypesCache
     {

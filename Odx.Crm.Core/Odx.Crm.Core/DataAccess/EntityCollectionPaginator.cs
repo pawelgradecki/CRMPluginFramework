@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 
-namespace Odx.Crm.Core.DataAccess
+namespace Odx.Xrm.Core.DataAccess
 {
     public class EntityCollectionPaginator<T>
         where T: Entity, new()

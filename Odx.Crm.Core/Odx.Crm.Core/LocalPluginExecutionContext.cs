@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xrm.Sdk;
 
-namespace Odx.Crm.Core
+namespace Odx.Xrm.Core
 {
     internal class LocalPluginExecutionContext : ILocalPluginExecutionContext
     {
