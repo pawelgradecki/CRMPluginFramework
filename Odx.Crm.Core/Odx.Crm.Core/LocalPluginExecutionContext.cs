@@ -36,20 +36,6 @@ namespace Odx.Xrm.Core
             }
         }
 
-        public virtual object Target
-        {
-            get
-            {
-                if (!this.isTargetLoaded)
-                {
-                    this.isTargetLoaded = true;
-                    this.target = Context.InputParameters[nameof(Target)];
-                }
-
-                return this.target;
-            }
-        }
-
         public virtual Entity TargetEntity
         {
             get
@@ -61,6 +47,20 @@ namespace Odx.Xrm.Core
                 }
 
                 return this.targetEntity;
+            }
+        }
+
+        public virtual object Target
+        {
+            get
+            {
+                if (!this.isTargetLoaded)
+                {
+                    this.isTargetLoaded = true;
+                    this.target = Context.InputParameters[nameof(Target)];
+                }
+
+                return this.target;
             }
         }
 
@@ -97,7 +97,7 @@ namespace Odx.Xrm.Core
         }
 
         public TMessage GetRequestMessage<TMessage>()
-                                                    where TMessage : OrganizationRequest, new()
+            where TMessage : OrganizationRequest, new()
         {
             var request = new TMessage()
             {
@@ -108,15 +108,16 @@ namespace Odx.Xrm.Core
         }
 
         public TMessage GetResponseMessage<TMessage>()
-            where TMessage : OrganizationRequest, new()
+            where TMessage : OrganizationResponse, new()
         {
             var request = new TMessage()
             {
-                Parameters = this.Context.OutputParameters
+                Results = this.Context.OutputParameters
             };
 
             return request;
         }
+
         public void SetInputParameter<V>(string key, V value)
         {
             this.Context.InputParameters[key] = value;
@@ -155,7 +156,7 @@ namespace Odx.Xrm.Core
         }
     }
 
-    internal class LocalPluginExecutionContext<T> : LocalPluginExecutionContext, ILocalPluginExecutionContext<T> 
+    internal class LocalPluginExecutionContext<T> : LocalPluginExecutionContext, ILocalPluginExecutionContext<T>
         where T : Entity
     {
         public LocalPluginExecutionContext(IPluginExecutionContext context) : base(context)

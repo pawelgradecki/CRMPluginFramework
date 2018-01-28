@@ -11,13 +11,6 @@ namespace Odx.Xrm.Core
         private string secureConfig;
         private HashSet<string> availableMessages;
 
-        private enum PipelineStage
-        {
-            PreValidation = 10,
-            PreOperation = 20,
-            PostOperation = 40
-        }
-
         protected string UnsecureConfig
         {
             get
@@ -66,24 +59,24 @@ namespace Odx.Xrm.Core
 
         public BasePlugin RegisterMessagePre(string messageName)
         {
-            return this.RegisterMessage(PipelineStage.PostOperation, messageName);
+            return this.RegisterMessage(PipelineStage.PreOperation, messageName);
         }
 
         public BasePlugin RegisterMessagePre<TMessage>()
             where TMessage : OrganizationRequest, new()
         {
-            return this.RegisterMessage<TMessage>(PipelineStage.PostOperation);
+            return this.RegisterMessage<TMessage>(PipelineStage.PreOperation);
         }
 
         public BasePlugin RegisterMessagePreValidation<TMessage>()
             where TMessage : OrganizationRequest, new()
         {
-            return this.RegisterMessage<TMessage>(PipelineStage.PostOperation);
+            return this.RegisterMessage<TMessage>(PipelineStage.PreValidation);
         }
 
         public BasePlugin RegisterMessagePreValidation(string messageName)
         {
-            return this.RegisterMessage(PipelineStage.PostOperation, messageName);
+            return this.RegisterMessage(PipelineStage.PreValidation, messageName);
         }
 
 
@@ -94,7 +87,7 @@ namespace Odx.Xrm.Core
             this.secureConfig = secureConfig;
         }
 
-        public virtual void Execute(IServiceProvider serviceProvider)
+        public void Execute(IServiceProvider serviceProvider)
         {
             this.RegisterAvailableMessages();
             var context = this.GetPluginExecutionContext(serviceProvider);
@@ -102,42 +95,34 @@ namespace Odx.Xrm.Core
             {
                 throw new InvalidPluginExecutionException($"Plugin registered on bad message. Contact your system administrator");
             }
+
+            var localContext = this.GetLocalPluginContext(serviceProvider);
+            var repositoryFactory = this.GetRepositoryFactory(serviceProvider);
+            var tracingService = this.GetTracingService(serviceProvider);
+
+            try
+            {
+                if(this.CanExecute(localContext, repositoryFactory, tracingService))
+                {
+                    this.Execute(localContext, repositoryFactory, tracingService);
+                }               
+            }
+            catch (Exception ex)
+            {
+                tracingService.Trace(ex);
+                tracingService.Trace($"Context: {localContext.Context.InputParameters.ToJSON()}");
+                throw;
+            }
         }
 
         protected IPluginExecutionContext GetPluginExecutionContext(IServiceProvider serviceProvider)
         {
             return (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
         }
-    }
 
-    public abstract class BasePlugin<T> : BasePlugin, IPlugin
-        where T : HandlerBase, IHandler, new()
-    {
+        public abstract bool CanExecute(ILocalPluginExecutionContext localContext, IRepositoryFactory repoFactory, ITracingService service);
 
-        public BasePlugin(string unsecureConfig, string secureConfig) : base(unsecureConfig, secureConfig) { }
-
-        public override void Execute(IServiceProvider serviceProvider)
-        {
-            base.Execute(serviceProvider);
-
-            var localContext = this.GetLocalPluginContext(serviceProvider);
-            var repositoryFactory = this.GetRepositoryFactory(serviceProvider);
-            var tracingService = this.GetTracingService(serviceProvider);
-
-            var handler = new T();
-            handler.InitializeTracing(tracingService);
-            handler.InitializeConfiguration(this.UnsecureConfig, this.SecureConfig);
-
-            try
-            {
-                handler.Execute(localContext, repositoryFactory);
-            }
-            catch (Exception ex)
-            {
-                handler.Trace(ex);
-                throw;
-            }
-        }
+        public abstract void Execute(ILocalPluginExecutionContext localContext, IRepositoryFactory repoFactory, ITracingService service);
 
         private IRepositoryFactory GetRepositoryFactory(IServiceProvider serviceProvider)
         {

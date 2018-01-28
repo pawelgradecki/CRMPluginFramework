@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
-using Odx.Xrm.Core.Model;
+using Microsoft.Xrm.Sdk.Client;
 
 namespace Odx.Xrm.Core.DataAccess
 {
@@ -31,7 +31,7 @@ namespace Odx.Xrm.Core.DataAccess
 
         List<T> RetrieveAll(params string[] columns);
 
-        U CustomRetrieve<U>(Func<XrmServiceContext, U> customRetriever);
+        U CustomRetrieve<U>(Func<OrganizationServiceContext, U> customRetriever);
 
         void SetActivationState(T entity, int stateCode, int statusCode);
 

@@ -10,16 +10,17 @@ namespace Odx.Xrm.Core
     {
         protected override void Execute(CodeActivityContext context)
         {
-            var handler = this.GetActivityHandler();
-            handler.Initialize(context, this);
             var repositoryFactory = this.GetRepositoryFactory(context);
-            var workflowContext = this.GetWorkflowContext(context);
-            handler.Execute(workflowContext, repositoryFactory);
+            var workflowContext = new LocalWorkflowExecutionContext(context);
+            var tracingService = this.GetTracingService(context);
+            this.Execute(workflowContext, repositoryFactory, tracingService);
         }
 
-        private IWorkflowContext GetWorkflowContext(CodeActivityContext context)
+        public abstract void Execute(ILocalWorkflowExecutionContext context, IRepositoryFactory repositoryFactory, ITracingService tracingService);
+
+        private ITracingService GetTracingService(CodeActivityContext context)
         {
-            return context.GetExtension<IWorkflowContext>();
+            return context.GetExtension<ITracingService>();
         }
 
         private IRepositoryFactory GetRepositoryFactory(CodeActivityContext context)
@@ -27,7 +28,6 @@ namespace Odx.Xrm.Core
             var factory = context.GetExtension<IOrganizationServiceFactory>();
             return new RepositoryFactory(factory);
         }
-
-        protected abstract IActivityHandler GetActivityHandler();
+       
     }
 }

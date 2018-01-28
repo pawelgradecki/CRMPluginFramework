@@ -1,15 +1,14 @@
-﻿using Odx.Xrm.Core.Model;
-using Microsoft.Crm.Sdk.Messages;
-using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Query;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
+using Microsoft.Crm.Sdk.Messages;
+using Microsoft.Xrm.Sdk.Query;
 
 namespace Odx.Xrm.Core.DataAccess
 {
@@ -30,7 +29,7 @@ namespace Odx.Xrm.Core.DataAccess
         }
     }
 
-    internal class BaseRepository<T> : BaseRepository
+    internal class BaseRepository<T> : BaseRepository, IBaseRepository<T>
         where T : Entity, new()
     {
         public BaseRepository(IOrganizationService service) : base(service) { }
@@ -76,7 +75,6 @@ namespace Odx.Xrm.Core.DataAccess
                     .Select(constructor)
                     .Single();
                 });
-
         }
 
         public List<T> RetrieveAll(params string[] columns)
@@ -91,9 +89,9 @@ namespace Odx.Xrm.Core.DataAccess
             return entities;
         }
 
-        public U CustomRetrieve<U>(Func<XrmServiceContext, U> customRetriever)
+        public U CustomRetrieve<U>(Func<OrganizationServiceContext, U> customRetriever)
         {
-            using (var ctx = new XrmServiceContext(this.service) { MergeOption = Microsoft.Xrm.Sdk.Client.MergeOption.NoTracking })
+            using (var ctx = new OrganizationServiceContext(this.service) { MergeOption = MergeOption.NoTracking })
             {
                 return customRetriever.Invoke(ctx);
             }
@@ -170,8 +168,8 @@ namespace Odx.Xrm.Core.DataAccess
 
             addToQueueRequest.Target = entity.ToEntityReference();
             addToQueueRequest.DestinationQueueId = destinationQueueId;
-            AddToQueueResponse _response = (AddToQueueResponse)this.service.Execute(addToQueueRequest);
-            return _response.QueueItemId;
+            AddToQueueResponse response = (AddToQueueResponse)this.service.Execute(addToQueueRequest);
+            return response.QueueItemId;
         }
     }
 }

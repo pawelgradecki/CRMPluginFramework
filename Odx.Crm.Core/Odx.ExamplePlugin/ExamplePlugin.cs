@@ -1,14 +1,24 @@
 ﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Messages;
-using Odx.Crm.Core;
-using Odx.Crm.Core.BusinessLogic.Handlers.Accounts;
+using Odx.Xrm.Core;
+using Odx.Xrm.Core.DataAccess;
 
 namespace Odx.ExamplePlugin
 {
-    public class ExamplePlugin : BasePlugin<ExampleHandler>, IPlugin
+    public class ExamplePlugin : BasePlugin, IPlugin
     {
         public ExamplePlugin(string unsecureConfiguration, string secureConfiguration)
             : base(unsecureConfiguration, secureConfiguration) { }
+
+        public override bool CanExecute(ILocalPluginExecutionContext localContext, IRepositoryFactory repoFactory, ITracingService service)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void Execute(ILocalPluginExecutionContext localContext, IRepositoryFactory repoFactory, ITracingService service)
+        {
+            throw new System.NotImplementedException();
+        }
 
         protected override void RegisterAvailableMessages()
         {

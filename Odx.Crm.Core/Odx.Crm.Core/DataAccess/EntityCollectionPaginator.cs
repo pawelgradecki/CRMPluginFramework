@@ -9,7 +9,7 @@ using Microsoft.Xrm.Sdk.Query;
 namespace Odx.Xrm.Core.DataAccess
 {
     public class EntityCollectionPaginator<T>
-        where T: Entity, new()
+        where T : Entity, new()
     {
         private IOrganizationService service;
         private QueryExpression initialQuery;
@@ -37,12 +37,12 @@ namespace Odx.Xrm.Core.DataAccess
         public int CurrentPage
         {
             get => this.pagingInfo.PageNumber - 1;
-        }
+            }
 
         public bool HasMore
         {
             get => this.moreResults;
-        }
+            }
 
         public List<T> GetNextPage()
         {

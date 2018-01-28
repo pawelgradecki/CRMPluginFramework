@@ -68,10 +68,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExampleActivity.cs" />
-    <Compile Include="ExampleActivityHandler.cs" />
-    <Compile Include="Repositories\AccountRepository.cs" />
-    <Compile Include="Repositories\IAccountRepository.cs" />
-    <Compile Include="ExampleHandler.cs" />
     <Compile Include="ExamplePlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

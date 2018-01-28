@@ -13,10 +13,10 @@ namespace Odx.Xrm.Core
         bool CheckSharedContextForFlag(string flagname, IPluginExecutionContext context = null);
         V GetInputParameter<V>(string key);
         TMessage GetRequestMessage<TMessage>() where TMessage : OrganizationRequest, new();
-        TMessage GetResponseMessage<TMessage>() where TMessage : OrganizationRequest, new();
+        TMessage GetResponseMessage<TMessage>() where TMessage : OrganizationResponse, new();
         void SetInputParameter<V>(string key, V value);
         void SetOutputParameter<V>(string key, V value);
-        ILocalPluginExecutionContext<T> ToEntity<T>() where T: Entity, new();
+        ILocalPluginExecutionContext<T> ToEntity<T>() where T : Entity, new();
     }
 
     public interface ILocalPluginExecutionContext<T> : ILocalPluginExecutionContext

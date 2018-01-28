@@ -17,7 +17,11 @@ namespace Odx.Xrm.Core.Utilities
             {
                 if (typeof(Entity).IsAssignableFrom(type))
                 {
-                    cachedTypes.Add(type.GetCustomAttribute<EntityLogicalNameAttribute>().LogicalName, type);
+                    var logicalAttributeName = type.GetCustomAttribute<EntityLogicalNameAttribute>();
+                    if (logicalAttributeName != null)
+                    {
+                        cachedTypes.Add(logicalAttributeName.LogicalName, type);
+                    }
                 }
             }
         }

@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Workflow;
-using Odx.Crm.Core;
+using Odx.Xrm.Core;
+using Odx.Xrm.Core.DataAccess;
 
 namespace Odx.ExamplePlugin
 {
@@ -26,9 +28,9 @@ namespace Odx.ExamplePlugin
         [Output("Calculate Date Time Result")]
         public OutArgument<DateTime> OutResult { get; set; }
 
-        protected override IActivityHandler GetActivityHandler()
+        public override void Execute(ILocalWorkflowExecutionContext context, IRepositoryFactory repositoryFactory, ITracingService tracingService)
         {
-            return new ExampleActivityHandler();
+            throw new NotImplementedException();
         }
     }
 }
